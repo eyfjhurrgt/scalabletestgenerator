@@ -1,22 +1,13 @@
-function findOrder(numCourses, prerequisites) {
-  const graph = new Array(numCourses).fill(0).map(() => []);
-  const inDegree = new Array(numCourses).fill(0);
-  for (const [course, pre] of prerequisites) {
-    graph[pre].push(course);
-    inDegree[course]++;
-  }
-  const queue = [];
-  for (let i = 0; i < numCourses; i++) {
-    if (inDegree[i] === 0) queue.push(i);
-  }
-  const result = [];
-  while (queue.length) {
-    const course = queue.shift();
-    result.push(course);
-    for (const nextCourse of graph[course]) {
-      inDegree[nextCourse]--;
-      if (inDegree[nextCourse] === 0) queue.push(nextCourse);
+function jump(nums) {
+  let jumps = 0;
+  let currentEnd = 0;
+  let farthest = 0;
+  for (let i = 0; i < nums.length - 1; i++) {
+    farthest = Math.max(farthest, i + nums[i]);
+    if (i === currentEnd) {
+      jumps++;
+      currentEnd = farthest;
     }
   }
-  return result.length === numCourses ? result : [];
+  return jumps;
 }
