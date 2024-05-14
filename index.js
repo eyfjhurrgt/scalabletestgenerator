@@ -1,25 +1,21 @@
-function ladderLength(beginWord, endWord, wordList) {
-  const wordSet = new Set(wordList);
-  if (!wordSet.has(endWord)) return 0;
-  let count = 0;
-  const queue = [beginWord];
-  while (queue.length) {
-    const size = queue.length;
-    count++;
-    for (let i = 0; i < size; i++) {
-      const current = queue.shift();
-      if (current === endWord) return count;
-      for (let j = 0; j < current.length; j++) {
-        for (let k = 97; k <= 122; k++) {
-          const newWord =
-            current.slice(0, j) + String.fromCharCode(k) + current.slice(j + 1);
-          if (wordSet.has(newWord)) {
-            queue.push(newWord);
-            wordSet.delete(newWord);
-          }
-        }
-      }
-    }
+function addTwoNumbers(l1, l2) {
+  const dummy = new ListNode(0);
+  let p = l1,
+    q = l2,
+    curr = dummy;
+  let carry = 0;
+  while (p !== null || q !== null) {
+    const x = p !== null ? p.val : 0;
+    const y = q !== null ? q.val : 0;
+    const sum = x + y + carry;
+    carry = Math.floor(sum / 10);
+    curr.next = new ListNode(sum % 10);
+    curr = curr.next;
+    if (p !== null) p = p.next;
+    if (q !== null) q = q.next;
   }
-  return 0;
+  if (carry > 0) {
+    curr.next = new ListNode(carry);
+  }
+  return dummy.next;
 }
