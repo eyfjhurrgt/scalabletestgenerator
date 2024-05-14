@@ -1,17 +1,25 @@
-function partitionLabels(s) {
-  const last = new Array(26);
-  for (let i = 0; i < s.length; i++) {
-    last[s.charCodeAt(i) - "a".charCodeAt(0)] = i;
-  }
-  let anchor = 0;
-  let j = 0;
-  const result = [];
-  for (let i = 0; i < s.length; i++) {
-    j = Math.max(j, last[s.charCodeAt(i) - "a".charCodeAt(0)]);
-    if (i === j) {
-      result.push(i - anchor + 1);
-      anchor = i + 1;
+function ladderLength(beginWord, endWord, wordList) {
+  const wordSet = new Set(wordList);
+  if (!wordSet.has(endWord)) return 0;
+  let count = 0;
+  const queue = [beginWord];
+  while (queue.length) {
+    const size = queue.length;
+    count++;
+    for (let i = 0; i < size; i++) {
+      const current = queue.shift();
+      if (current === endWord) return count;
+      for (let j = 0; j < current.length; j++) {
+        for (let k = 97; k <= 122; k++) {
+          const newWord =
+            current.slice(0, j) + String.fromCharCode(k) + current.slice(j + 1);
+          if (wordSet.has(newWord)) {
+            queue.push(newWord);
+            wordSet.delete(newWord);
+          }
+        }
+      }
     }
   }
-  return result;
+  return 0;
 }
